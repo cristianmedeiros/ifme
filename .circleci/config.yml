@@ -126,6 +126,20 @@ jobs:
             ./tmp/cc-test-reporter sum-coverage --output tmp/codeclimate.total.json --parts 2 tmp/codeclimate.*.json
             sed -i.bak 's@"/home/circleci/ifmeorg/ifme/@"@' tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+  test-build-storybook:
+  <<: *defaults
+  steps:
+    - run:
+      name: Validate Storybook build
+      command: |
+        yarn build:test
+  build-storybook:
+  <<: *defaults
+  steps:
+    - run:
+      name: Build Storybook
+      command: |
+        yarn build:production        
   deploy:
     docker:
       # TODO: Update this to correct cimg/base
@@ -171,13 +185,17 @@ workflows:
   version: 2
   build-test:
     jobs:
-      - setup-coverage
-      - build:
+      # - setup-coverage
+      # - build:
+      #     requires:
+      #       - setup-coverage
+      - test-build-storybook
+      - build-storybook:
           requires:
-            - setup-coverage
-      - upload-coverage:
-          requires:
-            - build
+            - test-storybook-build
+      # - upload-coverage:
+      #     requires:
+      #       - build
   build-test-deploy:
     jobs:
       - setup-coverage:
