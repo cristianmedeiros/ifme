@@ -127,19 +127,19 @@ jobs:
             sed -i.bak 's@"/home/circleci/ifmeorg/ifme/@"@' tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
   test-build-storybook:
-  <<: *defaults
-  steps:
-    - run:
-      name: Validate Storybook build
-      command: |
-        yarn build:test
+    <<: *defaults
+    steps:
+      - run:
+        name: Validate Storybook build
+        command: |
+          yarn build:test
   build-storybook:
-  <<: *defaults
-  steps:
-    - run:
-      name: Build Storybook
-      command: |
-        yarn build:production        
+    <<: *defaults
+    steps:
+      - run:
+        name: Build Storybook
+        command: |
+          yarn build:production        
   deploy:
     docker:
       # TODO: Update this to correct cimg/base
