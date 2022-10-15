@@ -130,16 +130,16 @@ jobs:
     <<: *defaults
     steps:
       - run:
-        name: Validate Storybook build
-        command: |
-          yarn build:test
+          name: Validate Storybook build
+          command: |
+            yarn build:test
   build-storybook:
     <<: *defaults
     steps:
       - run:
-        name: Build Storybook
-        command: |
-          yarn build:production        
+          name: Build Storybook
+          command: |
+            yarn build:production        
   deploy:
     docker:
       # TODO: Update this to correct cimg/base
