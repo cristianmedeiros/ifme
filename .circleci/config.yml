@@ -188,7 +188,7 @@ workflows:
       - test-build-storybook
       - build-storybook:
           requires:
-            - test-storybook-build
+            - test-build-storybook
   build-test-deploy:
     jobs:
       - setup-coverage:
