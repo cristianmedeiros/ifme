@@ -132,6 +132,7 @@ jobs:
       - run:
           name: Validate Storybook build
           command: |
+            cd client
             yarn build:test
   build-storybook:
     <<: *defaults
@@ -139,6 +140,7 @@ jobs:
       - run:
           name: Build Storybook
           command: |
+            cd client
             yarn build:production        
   deploy:
     docker:
