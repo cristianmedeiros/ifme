@@ -129,6 +129,7 @@ jobs:
   test-build-storybook:
     <<: *defaults
     steps:
+      - checkout
       - run:
           name: Validate Storybook build
           command: |
@@ -137,6 +138,7 @@ jobs:
   build-storybook:
     <<: *defaults
     steps:
+      - checkout
       - run:
           name: Build Storybook
           command: |
