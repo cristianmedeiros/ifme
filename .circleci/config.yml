@@ -130,6 +130,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run: yarn install --cache-folder ~/.cache/yarn
       - run:
           name: Validate Storybook build
           command: |
@@ -139,6 +140,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run: yarn install --cache-folder ~/.cache/yarn
       - run:
           name: Build Storybook
           command: |
