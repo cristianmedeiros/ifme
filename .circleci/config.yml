@@ -148,7 +148,7 @@ jobs:
       - run:
           name: Validate Storybook build
           command: |
-            yarn build:i18n && yarn build:test
+            cd client && yarn build:i18n && yarn build:test
       - save_cache:
           key: v1-dep-{{ .Branch }}-{{ epoch }}
           paths:
@@ -177,7 +177,7 @@ jobs:
       - run:
           name: Build Storybook
           command: |
-            yarn build:i18n && yarn build:test
+            cd client && yarn build:i18n && yarn build:production
       - save_cache:
           key: v1-dep-{{ .Branch }}-{{ epoch }}
           paths:
