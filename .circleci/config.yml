@@ -130,22 +130,62 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/ifmeorg/ifme/tmp
+      - restore_cache:
+          keys:
+          - v1-dep-{{ .Branch }}-
+          - v1-dep-main-
+          - v1-dep-
+      - run:
+          name: Update to Node v16.14.2
+          command: |
+            curl -sSL "https://nodejs.org/dist/v16.14.2/node-v16.14.2-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.14.2-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+      - run: gem install bundler
+      - run: bundle install --path=vendor/bundle --jobs=4 --retry=3
       - run: yarn install --cache-folder ~/.cache/yarn
       - run:
           name: Validate Storybook build
           command: |
             cd client
             yarn build:test
+      - save_cache:
+          key: v1-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+          - ~/.cache/yarn
+          - ./node_modules
+          - ./vendor/bundle
   build-storybook:
     <<: *defaults
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/ifmeorg/ifme/tmp
+      - restore_cache:
+          keys:
+          - v1-dep-{{ .Branch }}-
+          - v1-dep-main-
+          - v1-dep-
+      - run:
+          name: Update to Node v16.14.2
+          command: |
+            curl -sSL "https://nodejs.org/dist/v16.14.2/node-v16.14.2-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.14.2-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+      - run: gem install bundler
+      - run: bundle install --path=vendor/bundle --jobs=4 --retry=3
       - run: yarn install --cache-folder ~/.cache/yarn
       - run:
           name: Build Storybook
           command: |
             cd client
-            yarn build:production        
+            yarn build:production
+      - save_cache:
+          key: v1-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+          - ~/.cache/yarn
+          - ./node_modules
+          - ./vendor/bundle        
   deploy:
     docker:
       # TODO: Update this to correct cimg/base
