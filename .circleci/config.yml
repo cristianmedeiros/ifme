@@ -41,6 +41,16 @@ commands:
           - ~/.cache/yarn
           - ./node_modules
           - ./vendor/bundle
+  update-bundle-yarn-install:
+    steps:
+      - run:
+          name: Update to Node v16.14.2
+          command: |
+            curl -sSL "https://nodejs.org/dist/v16.14.2/node-v16.14.2-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.14.2-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+      - run: gem install bundler
+      - run: bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - run: yarn install --cache-folder ~/.cache/yarn
 jobs:
   setup-coverage:
     <<: *defaults
@@ -151,13 +161,7 @@ jobs:
       - restore_cache:
         - restore-cache-cmd
       - run:
-          name: Update to Node v16.14.2
-          command: |
-            curl -sSL "https://nodejs.org/dist/v16.14.2/node-v16.14.2-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v16.14.2-linux-x64/bin/node
-            curl https://www.npmjs.com/install.sh | sudo bash
-      - run: gem install bundler
-      - run: bundle install --path=vendor/bundle --jobs=4 --retry=3
-      - run: yarn install --cache-folder ~/.cache/yarn
+        - update-bundle-yarn-install
       - run:
           name: Validate Storybook build
           command: |
@@ -279,4 +283,4 @@ workflows:
             branches:
               ignore: /.*/
             tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+/  
