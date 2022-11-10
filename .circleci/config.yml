@@ -158,7 +158,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ifmeorg/ifme/tmp
-      - restore-cache-cmd
+      - run: restore-cache-cmd
       - run:
         - update-bundle-yarn-install
       - run:
