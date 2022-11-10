@@ -33,14 +33,14 @@ commands:
           - v1-dep-{{ .Branch }}-
           - v1-dep-main-
           - v1-dep-
-  # save-cache-cmd:
-  #   steps:
-  #     - save_cache:
-  #         key: v1-dep-{{ .Branch }}-{{ epoch }}
-  #         paths:
-  #         - ~/.cache/yarn
-  #         - ./node_modules
-  #         - ./vendor/bundle
+  save-cache-cmd:
+    steps:
+      - save_cache:
+          key: v1-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+          - ~/.cache/yarn
+          - ./node_modules
+          - ./vendor/bundle
   update-bundle-yarn-install:
     description: "DRY bundle yarn install"
     steps:
@@ -159,22 +159,14 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ifmeorg/ifme/tmp
-      - restore_cache:
-          keys:
-          - v1-dep-{{ .Branch }}-
-          - v1-dep-main-
-          - v1-dep-
+      - restore-cache-cmd
       - update-bundle-yarn-install
       - run:
           name: Validate Storybook build
           command: |
+            cd client
             yarn build:i18n && yarn build:test
-      - save_cache:
-          key: v1-dep-{{ .Branch }}-{{ epoch }}
-          paths:
-          - ~/.cache/yarn
-          - ./node_modules
-          - ./vendor/bundle
+      - save-cache-cmd
   build-storybook:
     <<: *defaults
     steps:
