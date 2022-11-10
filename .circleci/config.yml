@@ -167,20 +167,6 @@ jobs:
             cd client
             yarn build:i18n && yarn build:test
       - save-cache-cmd
-  build-storybook:
-    <<: *defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/ifmeorg/ifme/tmp
-      - restore-cache-cmd
-      - update-bundle-yarn-install
-      - run:
-          name: Validate Storybook build
-          command: |
-            cd client
-            yarn build:i18n && yarn build:production
-      - save-cache-cmd      
   deploy:
     docker:
       # TODO: Update this to correct cimg/base
@@ -227,9 +213,6 @@ workflows:
   build-test:
     jobs:
       - test-build-storybook
-      - build-storybook:
-          requires:
-            - test-build-storybook
   build-test-deploy:
     jobs:
       - setup-coverage:
