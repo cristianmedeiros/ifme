@@ -159,14 +159,12 @@ jobs:
       - attach_workspace:
           at: ~/ifmeorg/ifme/tmp
       - run: restore-cache-cmd
-      - run:
-        - update-bundle-yarn-install
+      - run: update-bundle-yarn-install
       - run:
           name: Validate Storybook build
           command: |
             yarn build:i18n && yarn build:test
-      - save_cache:
-        - save-cache-cmd
+      - run: save-cache-cmd
   build-storybook:
     <<: *defaults
     steps:
