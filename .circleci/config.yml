@@ -158,13 +158,22 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ifmeorg/ifme/tmp
-      - run: restore-cache-cmd
+      - restore_cache:
+          keys:
+          - v1-dep-{{ .Branch }}-
+          - v1-dep-main-
+          - v1-dep-
       - run: update-bundle-yarn-install
       - run:
           name: Validate Storybook build
           command: |
             yarn build:i18n && yarn build:test
-      - run: save-cache-cmd
+      - save_cache:
+          key: v1-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+          - ~/.cache/yarn
+          - ./node_modules
+          - ./vendor/bundle
   build-storybook:
     <<: *defaults
     steps:
