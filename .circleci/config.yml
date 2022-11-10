@@ -30,9 +30,9 @@ commands:
     steps:
       - restore_cache:
         keys:
-          - v1-dep-{{ .Branch }}-
-          - v1-dep-main-
-          - v1-dep-
+        - v1-dep-{{ .Branch }}-
+        - v1-dep-main-
+        - v1-dep-
   save-cache-cmd:
     steps:
       - save_cache:
