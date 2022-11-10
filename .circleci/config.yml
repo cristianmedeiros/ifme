@@ -167,7 +167,7 @@ jobs:
             cd client
             yarn build:i18n && yarn build:test
       - save-cache-cmd
-  test-build-storybook:
+  build-storybook:
     <<: *defaults
     steps:
       - checkout
