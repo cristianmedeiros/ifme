@@ -213,6 +213,13 @@ workflows:
   build-test:
     jobs:
       - test-build-storybook
+      - setup-coverage
+      - build:
+          requires:
+            - setup-coverage
+      - upload-coverage:
+          requires:
+            - build      
   build-test-deploy:
     jobs:
       - setup-coverage:
@@ -245,7 +252,15 @@ workflows:
               ignore: /.*/
             tags:
               only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+      - test-build-storybook:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+/              
       - deploy-storybook:
+          requires:
+            - test-build-storybook
           filters:
             branches:
               ignore: /.*/
