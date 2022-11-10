@@ -164,7 +164,7 @@ jobs:
           - v1-dep-{{ .Branch }}-
           - v1-dep-main-
           - v1-dep-
-      - run: update-bundle-yarn-install
+      - update-bundle-yarn-install
       - run:
           name: Validate Storybook build
           command: |
