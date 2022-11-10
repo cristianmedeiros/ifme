@@ -30,9 +30,9 @@ commands:
     steps:
       - restore_cache:
         keys:
-        - v1-dep-{{ .Branch }}-
-        - v1-dep-main-
-        - v1-dep-
+          - v1-dep-{{ .Branch }}-
+          - v1-dep-main-
+          - v1-dep-
   save-cache-cmd:
     steps:
       - save_cache:
@@ -158,7 +158,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/ifmeorg/ifme/tmp
-      - restore_cache:
+      - run:
         - restore-cache-cmd
       - run:
         - update-bundle-yarn-install
